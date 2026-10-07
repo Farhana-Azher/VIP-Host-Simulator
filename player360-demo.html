@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIP Servicing – Player 360 Demo</title>
+<style>
+:root{--bg:#f3f4f9;--card:#fff;--ink:#14182b;--mute:#5d647c;--line:#e3e6f0;--brand:#4f46e5;--brand2:#eef0ff;--side:#1e1b4b;--ok:#0f9d6b;--warn:#c27803;--bad:#d33f49}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+.app{display:grid;grid-template-columns:200px 1fr;min-height:100vh}
+aside{background:var(--side);color:#c9c8ee;padding:18px 12px}
+aside h1{font-size:15px;color:#fff;margin:0 8px 18px;line-height:1.3}
+aside a{display:block;color:#c9c8ee;text-decoration:none;padding:9px 10px;border-radius:8px;font-size:14px;margin-bottom:2px;cursor:pointer}
+aside a.active,aside a:hover{background:rgba(255,255,255,.12);color:#fff}
+.demo{margin:18px 8px 0;font-size:12px;background:rgba(255,255,255,.1);padding:8px 10px;border-radius:8px}
+.demo a{display:inline;padding:0;color:#fff;text-decoration:underline}
+.main{padding:20px;min-width:0}
+.top{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.av{width:46px;height:46px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:700}
+.top h2{margin:0;font-size:19px}
+.top small{color:var(--mute)}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--brand2);color:var(--brand)}
+.pill.ok{background:#e3f6ee;color:var(--ok)}.pill.warn{background:#fdf1db;color:var(--warn)}.pill.bad{background:#fde7e9;color:var(--bad)}
+.switch{margin-left:auto;display:flex;gap:4px;background:#eceefa;padding:3px;border-radius:10px}
+.switch button{border:0;background:none;padding:6px 12px;border-radius:8px;font:600 13px system-ui;color:var(--mute);cursor:pointer}
+.switch button.on{background:#fff;color:var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.view{display:none}.view.on{display:block}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.card h3{margin:0 0 10px;font-size:15px}
+.stat{font-size:24px;font-weight:800}
+.lbl{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.tl li:last-child{border:0}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--brand);margin-top:6px;flex:none}
+.meta{color:var(--mute);font-size:13px}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+.btn{background:var(--brand);color:#fff;border:0;padding:10px 16px;border-radius:10px;font:600 14px system-ui;cursor:pointer;margin-top:12px}
+.btn.sec{background:#eceefa;color:var(--brand)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.check{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:14px}
+.check.ok{background:#e3f6ee}.check.warn{background:#fdf1db}.check.bad{background:#fde7e9}
+.check ul{margin:6px 0 0;padding-left:18px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-size:12px;text-transform:uppercase;color:var(--mute)}
+.scroll{overflow-x:auto}
+.tgl{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px}
+.tgl input{width:auto}
+.note{font-size:12px;color:var(--mute);margin-top:14px}
+.sens{border:1px dashed var(--warn);background:#fffaf0;border-radius:10px;padding:10px 12px;font-size:14px;margin-top:10px}
+@media(max-width:720px){.app{grid-template-columns:1fr}aside{display:flex;flex-wrap:wrap;gap:4px;padding:10px}aside h1,.demo{display:none}.switch{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <h1>VIP Servicing<br><span style="font-weight:400;opacity:.8">Demo prototype</span></h1>
+  <a class="active" data-v="p360">Player 360</a>
+  <a data-v="brands">Brands &amp; financial</a>
+  <a data-v="inter">Interactions</a>
+  <a data-v="bonus">Bonus request</a>
+  <a data-v="audit">Audit</a>
+  <div class="demo">Fictional data. <a href="index.html">← Case study</a></div>
+</aside>
+
+<div class="main">
+  <div class="top">
+    <div class="av">SO</div>
+    <div>
+      <h2>Sam Okafor <span class="pill">Hosted VIP</span> <span class="pill">2 brands</span></h2>
+      <small>Owner: N. Host · VIP since 14 Mar 2026 · Preferred: WhatsApp</small>
+    </div>
+    <div class="switch" id="sw">
+      <button class="on" data-b="all">All brands</button>
+      <button data-b="A">Brand A</button>
+      <button data-b="B">Brand B</button>
+    </div>
+  </div>
+
+  <!-- PLAYER 360 -->
+  <div class="view on" id="p360">
+    <div class="grid g4" id="stats"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Recent activity <span class="meta" id="scopeLbl"></span></h3><ul class="tl" id="actList"></ul></div>
+      <div class="card"><h3>Service preferences</h3>
+        <p class="meta" style="margin:0 0 6px">Preferred channel: WhatsApp · Best time: 18:00–21:00 · English · Concise / direct</p>
+        <div class="sens"><b>Sensitive – controlled</b><br>Prefers WhatsApp after 18:00. Interested in football hospitality events. Avoid duplicate outreach across Brand A and Brand B.</div>
+        <p class="note">Recorded once at customer level, not duplicated per brand.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRANDS -->
+  <div class="view" id="brands">
+    <div class="grid g2" id="brandCards"></div>
+    <div class="card" style="margin-top:14px"><h3>Brand-level financial context (agreed period)</h3>
+      <div class="scroll"><table><thead><tr><th>Brand</th><th>Deposits</th><th>Withdrawals</th><th>Pending</th></tr></thead><tbody id="finRows"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- INTERACTIONS -->
+  <div class="view" id="inter">
+    <div class="grid g2">
+      <div class="card"><h3>Unified timeline</h3><ul class="tl" id="tlList"></ul></div>
+      <div class="card"><h3>Log interaction</h3>
+        <label>Channel</label><select id="ch"><option>WhatsApp</option><option>Call</option><option>Email</option></select>
+        <label>Brand context</label><select id="ctx"><option>Customer-level</option><option>Brand A</option><option>Brand B</option></select>
+        <label>Notes</label><textarea id="nt" rows="3" placeholder="e.g. Confirmed hospitality event interest"></textarea>
+        <button class="btn" id="saveInt">Save interaction</button>
+        <p class="note">Saved to the single timeline and written to the audit log.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BONUS -->
+  <div class="view" id="bonus">
+    <div class="grid g2">
+      <div class="card"><h3>Bonus request</h3>
+        <label>Brand</label><select id="bBrand"><option value="A">Brand A</option><option value="B">Brand B</option></select>
+        <label>Bonus type</label><select id="bType"><option>Free spins</option><option>Free bet</option><option>Hospitality credit</option></select>
+        <label>Value (£)</label><input id="bVal" type="number" min="0" value="150">
+        <label>Reason</label><select id="bReason"><option>Retention / service</option><option>Event follow-up</option><option>Goodwill (case)</option></select>
+        <label class="tgl"><input type="checkbox" id="rg"> Simulate a safer-gambling flag on this player</label>
+        <button class="btn sec" id="chk">Check eligibility</button>
+        <button class="btn" id="sub" disabled>Submit request</button>
+        <div id="res"></div>
+      </div>
+      <div class="card"><h3>How the decision works</h3>
+        <ul style="padding-left:18px;color:var(--mute);margin:0">
+          <li><b>Brand exclusions</b> are respected per account.</li>
+          <li><b>Safer-gambling flag</b> blocks the request and routes it to the safer-gambling team.</li>
+          <li><b>Above £200</b> needs supervisor approval.</li>
+          <li>Every check and decision input is written to the audit log.</li>
+        </ul>
+        <p class="note">Recommendations support the host; they do not autonomously make high-impact servicing decisions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIT -->
+  <div class="view" id="audit">
+    <div class="card"><h3>Servicing audit history</h3>
+      <div class="scroll"><table><thead><tr><th>Date/time</th><th>User</th><th>Action</th><th>Scope</th><th>Detail</th></tr></thead><tbody id="auditRows"></tbody></table></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const brands={
+  A:{name:"Brand A",acct:"A-1042",value:8.2,last:"Today",flag:"No restrictions",excluded:false,dep:8.0,wd:2.2,pend:0},
+  B:{name:"Brand B",acct:"B-2087",value:4.3,last:"Yesterday",flag:"Bonus exclusion",excluded:true,dep:4.5,wd:0.9,pend:0}
+};
+const activity=[
+  {t:"Today 20:14",b:"A",d:"Sports – high-value session",s:"Active"},
+  {t:"Today 18:42",b:"B",d:"Casino – slots session",s:"Active"},
+  {t:"Yesterday",b:"A",d:"Sports – settled bets",s:"Complete"},
+  {t:"03 Oct",b:"B",d:"Casino – gameplay session",s:"Complete"}
+];
+let timeline=[
+  {t:"05 Oct",ch:"WhatsApp",ctx:"Customer-level",n:"Bonus query – follow-up due"},
+  {t:"02 Oct",ch:"Call",ctx:"Brand A",n:"Event invitation accepted"},
+  {t:"28 Sep",ch:"Email",ctx:"Brand B",n:"Account update sent"},
+  {t:"25 Sep",ch:"Call",ctx:"Customer-level",n:"Preference updated"}
+];
+let audit=[
+  {t:"05 Oct 21:10",u:"N. Host",a:"Case escalated",s:"Customer",d:"Open → Escalated"},
+  {t:"03 Oct 16:20",u:"Supervisor",a:"Owner changed",s:"Customer",d:"J. Host → N. Host"},
+  {t:"28 Sep 19:05",u:"N. Host",a:"Preference updated",s:"Customer",d:"Email → WhatsApp"}
+];
+let scope="all",lastCheck=null;
+const $=id=>document.getElementById(id);
+const now=()=>new Date().toLocaleString("en-GB",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
+
+function renderStats(){
+  const list=scope==="all"?["A","B"]:[scope];
+  const sum=k=>list.reduce((a,x)=>a+brands[x][k],0);
+  const items=[["Relationship value","£"+sum("value").toFixed(1)+"k"],["Deposits","£"+sum("dep").toFixed(1)+"k"],["Withdrawals","£"+sum("wd").toFixed(1)+"k"],["Pending","£"+sum("pend").toFixed(1)+"k"]];
+  $("stats").innerHTML=items.map(([l,v])=>`<div class="card"><div class="lbl">${l}</div><div class="stat">${v}</div></div>`).join("");
+  $("scopeLbl").textContent="· "+(scope==="all"?"all brands":brands[scope].name);
+  $("actList").innerHTML=activity.filter(a=>scope==="all"||a.b===scope).map(a=>`<li><span class="dot"></span><div><b>${a.d}</b><div class="meta">${a.t} · ${brands[a.b].name} · ${a.s}</div></div></li>`).join("");
+  $("brandCards").innerHTML=list.map(k=>{const b=brands[k];return `<div class="card"><h3>${b.name} <span class="pill ${b.excluded?"warn":"ok"}">${b.flag}</span></h3><div class="meta">Account ${b.acct}</div><div class="grid g2" style="margin-top:10px;grid-template-columns:1fr 1fr"><div><div class="lbl">Value</div><div class="stat">£${b.value}k</div></div><div><div class="lbl">Last activity</div><div class="stat" style="font-size:18px">${b.last}</div></div></div></div>`}).join("");
+  $("finRows").innerHTML=list.map(k=>{const b=brands[k];return `<tr><td>${b.name}</td><td>£${b.dep}k</td><td>£${b.wd}k</td><td>£${b.pend}k</td></tr>`}).join("");
+}
+function renderTimeline(){
+  $("tlList").innerHTML=timeline.map(x=>`<li><span class="dot"></span><div><b>${x.n}</b><div class="meta">${x.t} · ${x.ch} · ${x.ctx}</div></div></li>`).join("");
+}
+function renderAudit(){
+  $("auditRows").innerHTML=audit.map(x=>`<tr><td>${x.t}</td><td>${x.u}</td><td>${x.a}</td><td>${x.s}</td><td>${x.d}</td></tr>`).join("");
+}
+
+document.querySelectorAll("aside a[data-v]").forEach(a=>a.addEventListener("click",()=>{
+  document.querySelectorAll("aside a").forEach(x=>x.classList.toggle("active",x===a));
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id===a.dataset.v));
+}));
+$("sw").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  scope=b.dataset.b;
+  document.querySelectorAll("#sw button").forEach(x=>x.classList.toggle("on",x===b));
+  renderStats();
+});
+$("saveInt").addEventListener("click",()=>{
+  const n=$("nt").value.trim();if(!n){$("nt").focus();return}
+  timeline.unshift({t:now(),ch:$("ch").value,ctx:$("ctx").value,n});
+  audit.unshift({t:now(),u:"N. Host",a:"Interaction logged",s:$("ctx").value,d:$("ch").value});
+  $("nt").value="";renderTimeline();renderAudit();
+});
+
+function check(){
+  const k=$("bBrand").value,b=brands[k],val=parseFloat($("bVal").value)||0,rg=$("rg").checked;
+  const lines=[];let level="ok",title="Eligible",canSubmit=true;
+  if(rg){level="bad";title="Blocked – safer-gambling flag";canSubmit=false;lines.push("Request cannot proceed. Route to the safer-gambling team.");}
+  else if(b.excluded){level="bad";title="Blocked – brand exclusion";canSubmit=false;lines.push(`${b.name} has a bonus exclusion on this account.`);}
+  else{
+    lines.push("No safer-gambling flags.","No brand exclusions.");
+    if(val>200){level="warn";title="Eligible – supervisor approval required";lines.push("Value is above the £200 threshold.");}
+    if(val<=0){level="bad";title="Enter a value";canSubmit=false;}
+  }
+  lastCheck={k,val,level,title,canSubmit};
+  $("res").innerHTML=`<div class="check ${level}"><b>${title}</b><ul>${lines.map(l=>`<li>${l}</li>`).join("")}</ul></div>`;
+  $("sub").disabled=!canSubmit;
+  audit.unshift({t:now(),u:"System",a:"Eligibility check",s:b.name,d:title});
+  renderAudit();
+}
+$("chk").addEventListener("click",check);
+["bBrand","bType","bVal","bReason","rg"].forEach(id=>$(id).addEventListener("input",()=>{$("sub").disabled=true;$("res").innerHTML="";lastCheck=null}));
+$("sub").addEventListener("click",()=>{
+  if(!lastCheck||!lastCheck.canSubmit)return;
+  const st=lastCheck.level==="warn"?"Pending supervisor approval":"Pending";
+  audit.unshift({t:now(),u:"N. Host",a:"Bonus request",s:brands[lastCheck.k].name,d:`${$("bType").value} £${lastCheck.val} – ${st}`});
+  timeline.unshift({t:now(),ch:"System",ctx:brands[lastCheck.k].name,n:`Bonus request submitted: ${$("bType").value} £${lastCheck.val} (${st})`});
+  $("res").innerHTML=`<div class="check ok"><b>Request submitted</b><ul><li>${st}. Logged to audit and timeline.</li></ul></div>`;
+  $("sub").disabled=true;renderTimeline();renderAudit();
+});
+
+renderStats();renderTimeline();renderAudit();
+</script>
+</body>
+</html>

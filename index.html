@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIP Servicing Tool – Product Case Study</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#14182b;--mute:#5d647c;--line:#e3e6f0;--brand:#4f46e5;--brand2:#eef0ff;--ok:#0f9d6b;--warn:#c27803;--bad:#d33f49}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,#1e1b4b,#4f46e5);color:#fff;padding:44px 20px 28px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header h1{margin:0 0 8px;font-size:clamp(26px,5vw,40px);line-height:1.15}
+header p{margin:0;max-width:680px;opacity:.9}
+.tag{display:inline-block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:4px 10px;border-radius:99px;margin-bottom:14px}
+nav{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:4px;overflow-x:auto}
+nav button{border:0;background:none;padding:14px 16px;font:600 14px system-ui;color:var(--mute);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:var(--brand);border-color:var(--brand)}
+main{padding:28px 0 60px}
+section{display:none}section.active{display:block}
+h2{font-size:24px;margin:0 0 6px}h3{margin:0 0 6px;font-size:17px}
+.lead{color:var(--mute);margin:0 0 20px;max-width:720px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card p{margin:0;color:var(--mute);font-size:15px}
+.kpi{font-size:28px;font-weight:800;color:var(--brand)}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--brand2);color:var(--brand)}
+.pill.ok{background:#e3f6ee;color:var(--ok)}.pill.warn{background:#fdf1db;color:var(--warn)}.pill.bad{background:#fde7e9;color:var(--bad)}
+.principle{border-left:5px solid var(--brand);background:var(--brand2);padding:16px 18px;border-radius:0 12px 12px 0;margin:0 0 22px}
+.principle b{display:block;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{background:#fafbff;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+tr:last-child td{border-bottom:0}
+input[type=number]{width:62px;padding:5px;border:1px solid var(--line);border-radius:8px;font:inherit}
+select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+.score{font-weight:800;color:var(--brand)}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px}
+.scroll{overflow-x:auto}
+.cols{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.col{background:#eceefa;border-radius:14px;padding:12px}
+.col h3{display:flex;justify-content:space-between;align-items:center}
+.item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:14px}
+.item small{display:block;color:var(--mute);margin-top:3px}
+.note{font-size:13px;color:var(--mute);margin-top:12px}
+footer{border-top:1px solid var(--line);padding:20px 0;color:var(--mute);font-size:13px;text-align:center}
+a{color:var(--brand)}
+.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600;margin-top:12px}
+ul{margin:8px 0 0;padding-left:20px;color:var(--mute);font-size:15px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <span class="tag">Product case study · concept</span>
+  <h1>One VIP. One view. Every brand.</h1>
+  <p>How a single customer view could help hosts serve VIP players across multiple gambling brands, without losing sight of safer gambling, ownership or audit.</p>
+</div></header>
+
+<nav><div class="wrap" id="tabs">
+  <button class="active" data-t="overview">Overview</button>
+  <button data-t="prioritise">Prioritisation tool</button>
+  <button data-t="roadmap">Roadmap</button>
+  <button data-t="guardrails">Risks &amp; guardrails</button>
+</div></nav>
+
+<main><div class="wrap">
+
+<section id="overview" class="active">
+  <h2>The problem</h2>
+  <p class="lead">Hosted VIPs often hold accounts on several brands. Today, hosts piece together one relationship from many systems, which causes duplicate outreach, repeated questions for the customer and slow handoffs between teams.</p>
+
+  <div class="principle"><b>Single Player View principle</b>One person is the anchor. Brand accounts sit beneath the same VIP record as linked child accounts. Servicing history, ownership and preferences are shown once; account-level values stay identifiable by brand.</div>
+
+  <h3>Who it's for</h3>
+  <div class="grid g3" style="margin:10px 0 24px">
+    <div class="card"><span class="pill">Primary</span><h3 style="margin-top:8px">VIP Host</h3><p>Needs the full relationship in one place, with clear next actions and no duplicate outreach.</p></div>
+    <div class="card"><span class="pill">Secondary</span><h3 style="margin-top:8px">Supervisor</h3><p>Needs ownership, coverage gaps, onboarding and off-ramp visibility, plus control over reassignments.</p></div>
+    <div class="card"><span class="pill">Stakeholder</span><h3 style="margin-top:8px">Compliance / Safer Gambling</h3><p>Needs decisions to be explainable, restricted data to be controlled and every material action to be audited.</p></div>
+  </div>
+
+  <h3>How we'd know it worked</h3>
+  <p class="lead" style="margin-bottom:12px">Illustrative targets for the case study, to be baselined before launch.</p>
+  <div class="grid g3">
+    <div class="card"><div class="kpi">↓ 30%</div><h3>Duplicate outreach</h3><p>Same customer contacted by more than one brand team in a week.</p></div>
+    <div class="card"><div class="kpi">↓ 25%</div><h3>Time to resolve a case</h3><p>Context travels with the case, so handoffs don't restart the conversation.</p></div>
+    <div class="card"><div class="kpi">↑ 20%</div><h3>VIPs per host (same quality)</h3><p>Capacity gain without a drop in service scores or compliance outcomes.</p></div>
+  </div>
+  <p class="note"><b>North-star:</b> time from a player contacting us to a correct, compliant resolution, measured across all linked brands.</p>
+
+  <h3 style="margin-top:26px">Scope at a glance</h3>
+  <div class="grid g2" style="margin-top:10px">
+    <div class="card"><span class="pill ok">MVP foundation</span><ul><li>Player 360 and linked brand accounts</li><li>Unified interaction timeline</li><li>Tasks, cases and handoff</li><li>Core bonus request workflow</li><li>Supervisor controls, permissions, audit</li></ul></div>
+    <div class="card"><span class="pill warn">Post-MVP / enhanced</span><ul><li>Next-best-action recommendations</li><li>Engagement trend and relationship risk</li><li>Opportunity and milestone insights</li><li>Recommendations support hosts; they never make high-impact decisions alone</li></ul></div>
+  </div>
+</section>
+
+<section id="prioritise">
+  <h2>Prioritisation tool</h2>
+  <p class="lead">Edit any number and the ranking updates live. Change the strategy lens to see how priorities shift. Compliance-gated items stay in <b>Now</b> regardless of score, because RICE can't capture "we can't launch without it".</p>
+  <div class="toolbar">
+    <label><b>Strategy lens:</b>
+      <select id="lens">
+        <option value="balanced">Balanced</option>
+        <option value="retention">Retention &amp; value</option>
+        <option value="efficiency">Host efficiency</option>
+        <option value="compliance">Risk &amp; compliance</option>
+      </select></label>
+    <button class="btn" style="margin:0;border:0;cursor:pointer" id="reset">Reset values</button>
+  </div>
+  <div class="scroll"><table id="rice">
+    <thead><tr><th>#</th><th>Feature</th><th>Theme</th><th>Reach (1–10)</th><th>Impact (0.25–3)</th><th>Confidence %</th><th>Effort (months)</th><th>Score</th><th></th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="note">Score = Reach × Impact × Confidence ÷ Effort, then multiplied by the lens weight for the feature's theme. All values are illustrative.</p>
+</section>
+
+<section id="roadmap">
+  <h2>Now / Next / Later</h2>
+  <p class="lead">Generated from the prioritisation tab: the top-ranked items land in Now, the next group in Next, the rest in Later. Compliance-gated items are pinned to Now. Change a lens or a score and come back to see the roadmap move.</p>
+  <div class="cols" id="cols"></div>
+  <h3 style="margin-top:24px">Key dependencies</h3>
+  <ul>
+    <li>Golden customer identity and account-linking logic must exist before the timeline, cases and bonus workflow can sit on one record.</li>
+    <li>Source-of-truth per data domain, plus data-freshness rules, must be agreed before insights can be trusted.</li>
+    <li>Merge/split governance and auditability of identity changes need an owner before launch.</li>
+  </ul>
+</section>
+
+<section id="guardrails">
+  <h2>Risks &amp; guardrails</h2>
+  <p class="lead">In a gambling context, a "helpful" tool can also cause harm. These are the guardrails the product would be designed around from day one.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Risk</th><th>Guardrail</th><th>Severity</th></tr></thead>
+    <tbody>
+      <tr><td>Bonuses or outreach aimed at a player showing signs of harm</td><td>Safer-gambling flags are checked at bonus-request time; flagged players are blocked and routed to the safer-gambling team.</td><td><span class="pill bad">High</span></td></tr>
+      <tr><td>"Next best action" nudges players to spend more</td><td>Recommendations are advisory, exclude flagged players, and are reviewed with Compliance before release.</td><td><span class="pill bad">High</span></td></tr>
+      <tr><td>Wrong accounts linked to one person</td><td>Golden-ID matching rules, human review for low-confidence matches, and a full audit trail on merges and splits.</td><td><span class="pill bad">High</span></td></tr>
+      <tr><td>Sensitive notes seen by the wrong people</td><td>Role- and attribute-based access, sensitivity labels on notes, and no duplication per brand unless genuinely brand-specific.</td><td><span class="pill warn">Medium</span></td></tr>
+      <tr><td>High-value bonuses approved without oversight</td><td>Value thresholds trigger supervisor approval; every decision records its inputs.</td><td><span class="pill warn">Medium</span></td></tr>
+      <tr><td>Stale or conflicting data between brands</td><td>Source-of-truth by data domain, visible "last updated" markers, and retry/idempotent integrations.</td><td><span class="pill warn">Medium</span></td></tr>
+      <tr><td>Hosts over-trust a recommendation</td><td>Human-in-the-loop for any high-impact decision; the reason behind each recommendation is always visible.</td><td><span class="pill">Low</span></td></tr>
+    </tbody>
+  </table></div>
+  <a class="btn" href="player360-demo.html">See these guardrails in the clickable demo →</a>
+</section>
+
+</div></main>
+<footer><div class="wrap">Concept case study using entirely fictional data. Not affiliated with any operator or brand.</div></footer>
+
+<script>
+const base=[
+ {n:"Single customer record (golden ID)",t:"Foundation",r:10,i:3,c:80,e:6,gate:false},
+ {n:"Linked brand accounts view",t:"Foundation",r:10,i:3,c:90,e:3,gate:false},
+ {n:"Unified interaction timeline",t:"Efficiency",r:9,i:2,c:90,e:2,gate:false},
+ {n:"Tasks and follow-ups",t:"Efficiency",r:9,i:2,c:90,e:2,gate:false},
+ {n:"Case management with handoff",t:"Efficiency",r:6,i:2,c:80,e:3,gate:false},
+ {n:"Bonus request workflow",t:"Retention",r:7,i:2,c:70,e:3,gate:false},
+ {n:"Supervisor lifecycle and ownership",t:"Efficiency",r:3,i:2,c:70,e:3,gate:false},
+ {n:"Role-based access and audit trail",t:"Compliance",r:10,i:3,c:90,e:3,gate:true},
+ {n:"Preferences and sensitive notes",t:"Retention",r:8,i:1,c:90,e:1,gate:false},
+ {n:"Safer-gambling checks in bonus decisions",t:"Compliance",r:7,i:3,c:60,e:2,gate:true},
+ {n:"Next-best-action insights",t:"Retention",r:8,i:1,c:40,e:5,gate:false},
+ {n:"Engagement trend and relationship risk",t:"Retention",r:6,i:1,c:40,e:4,gate:false}
+];
+const lensW={
+ balanced:{Foundation:1,Efficiency:1,Retention:1,Compliance:1},
+ retention:{Foundation:1,Efficiency:.8,Retention:1.5,Compliance:1},
+ efficiency:{Foundation:1,Efficiency:1.5,Retention:.8,Compliance:1},
+ compliance:{Foundation:1,Efficiency:.8,Retention:.7,Compliance:1.8}
+};
+let data=JSON.parse(JSON.stringify(base));
+const tbody=document.querySelector('#rice tbody');
+
+function score(f){const w=lensW[document.getElementById('lens').value][f.t]||1;return f.r*f.i*(f.c/100)/f.e*w}
+function ranked(){return data.map((f,idx)=>({...f,idx,s:score(f)})).sort((a,b)=>b.s-a.s)}
+
+function renderTable(){
+  const rk=ranked();
+  tbody.innerHTML='';
+  rk.forEach((f,pos)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${pos+1}</td><td>${f.n}</td><td><span class="pill">${f.t}</span></td>
+      <td><input type="number" min="1" max="10" step="1" value="${f.r}" data-i="${f.idx}" data-k="r"></td>
+      <td><input type="number" min="0.25" max="3" step="0.25" value="${f.i}" data-i="${f.idx}" data-k="i"></td>
+      <td><input type="number" min="10" max="100" step="10" value="${f.c}" data-i="${f.idx}" data-k="c"></td>
+      <td><input type="number" min="0.5" max="12" step="0.5" value="${f.e}" data-i="${f.idx}" data-k="e"></td>
+      <td class="score">${f.s.toFixed(1)}</td>
+      <td>${f.gate?'<span class="pill bad">Gate</span>':''}</td>`;
+    tbody.appendChild(tr);
+  });
+  renderRoadmap(rk);
+}
+
+function renderRoadmap(rk){
+  const gated=rk.filter(f=>f.gate);
+  const rest=rk.filter(f=>!f.gate);
+  const now=[...gated,...rest.slice(0,4)];
+  const next=rest.slice(4,8);
+  const later=rest.slice(8);
+  const cols=[["Now",now,"MVP foundation"],["Next",next,"Build on the foundation"],["Later",later,"Enhanced / post-MVP"]];
+  document.getElementById('cols').innerHTML=cols.map(([name,list,sub])=>`
+    <div class="col"><h3>${name}<span class="pill">${list.length}</span></h3><small style="color:var(--mute)">${sub}</small>
+    ${list.map(f=>`<div class="item"><b>${f.n}</b><small>${f.t} · score ${f.s.toFixed(1)}${f.gate?' · compliance gate':''}</small></div>`).join('')||'<div class="item"><small>Nothing here</small></div>'}
+    </div>`).join('');
+}
+
+tbody.addEventListener('change',e=>{
+  const el=e.target;if(!el.dataset.k)return;
+  const v=parseFloat(el.value);
+  if(!isNaN(v)&&v>0)data[el.dataset.i][el.dataset.k]=v;
+  renderTable();
+});
+document.getElementById('lens').addEventListener('change',renderTable);
+document.getElementById('reset').addEventListener('click',()=>{data=JSON.parse(JSON.stringify(base));renderTable()});
+
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('active',x===b));
+  document.querySelectorAll('section').forEach(s=>s.classList.toggle('active',s.id===b.dataset.t));
+  window.scrollTo({top:0});
+});
+renderTable();
+</script>
+</body>
+</html>
