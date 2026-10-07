@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIP Host Simulator</title>
+<style>
+:root{--bg:#f3f4f9;--card:#fff;--ink:#14182b;--mute:#5d647c;--line:#e3e6f0;--brand:#4f46e5;--brand2:#eef0ff;--ok:#0f9d6b;--warn:#c27803;--bad:#d33f49}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,#1e1b4b,#4f46e5);color:#fff;padding:22px 16px}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header h1{margin:0;font-size:22px}
+header p{margin:4px 0 0;opacity:.85;font-size:14px}
+.meters{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.m{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.m .l{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;display:flex;justify-content:space-between}
+.bar{height:8px;background:#eceefa;border-radius:99px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;transition:width .4s,background .4s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.prog{font-size:13px;color:var(--mute);margin-bottom:6px}
+.card h2{margin:0 0 8px;font-size:20px}
+.who{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 12px}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--brand2);color:var(--brand)}
+.screen{background:#f7f8fd;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--mute);margin:12px 0}
+.screen b{color:var(--ink)}
+.choice{display:block;width:100%;text-align:left;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;font:inherit;color:var(--ink);cursor:pointer}
+.choice:hover:not(:disabled){border-color:var(--brand)}
+.choice:disabled{cursor:default;opacity:.7}
+.choice.picked{border-color:var(--brand);opacity:1;background:var(--brand2)}
+.fb{margin-top:14px;border-radius:12px;padding:12px 14px;font-size:15px}
+.fb.good{background:#e3f6ee}.fb.mid{background:#fdf1db}.fb.bad{background:#fde7e9}
+.deltas{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:13px;font-weight:700}
+.d.p{color:var(--ok)}.d.n{color:var(--bad)}.d.z{color:var(--mute)}
+.btn{background:var(--brand);color:#fff;border:0;padding:11px 18px;border-radius:10px;font:600 15px system-ui;cursor:pointer;margin-top:14px}
+.btn.sec{background:#eceefa;color:var(--brand)}
+.rank{font-size:30px;font-weight:800;margin:6px 0}
+.map{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+.map td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.map td:first-child{font-weight:600;width:42%}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:10px 0 40px}
+a{color:var(--brand)}
+@media(max-width:520px){.meters{gap:6px}.m{padding:8px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>VIP Host Simulator</h1>
+  <p>Play a shift as a VIP host. Keep players happy, stay compliant, and protect your time.</p>
+</div></header>
+
+<div class="wrap">
+  <div class="meters" id="meters"></div>
+  <div id="stage"></div>
+  <footer>Training prototype with fictional customers and rules. <a href="index.html">Case study</a> · <a href="player360-demo.html">Player 360 demo</a></footer>
+</div>
+
+<script>
+// d = [service, compliance, efficiency]
+const scenarios=[
+{
+ title:"Two brands, one customer",
+ who:["Sam Okafor","Hosted VIP","Brand A + Brand B"],
+ text:"Brand A's team has just scheduled a call to Sam about a hospitality event. A Brand B promo email to Sam is queued for the same afternoon. You spot both on the timeline.",
+ screen:"<b>Timeline:</b> last contact 2 days ago (WhatsApp). <b>Preference:</b> concise, WhatsApp after 18:00. <b>Note:</b> avoid duplicate outreach across brands.",
+ opts:[
+  {t:"Let both go ahead. It's two different brands, after all.",d:[-15,0,5],f:"Sam would get a call and a promo within hours, which is the duplicate outreach the single view exists to prevent.",q:"bad"},
+  {t:"Hold the email, keep one WhatsApp contact after 18:00 and log it once on the shared timeline.",d:[15,5,10],f:"One relationship, one voice, on Sam's preferred channel and time.",q:"good"},
+  {t:"Cancel everything and contact nobody this week.",d:[-10,0,0],f:"You avoided the clash but dropped the event follow-up, so the customer experience suffers.",q:"mid"}
+ ]
+},
+{
+ title:"The excluded account",
+ who:["Sam Okafor","Hosted VIP","Brand B"],
+ text:"Sam asks you for free spins on Brand B. You open the Brands tab and see the account carries a bonus exclusion.",
+ screen:"<b>Brand B:</b> flag = Bonus exclusion. <b>Brand A:</b> no restrictions. <b>Last bonus:</b> 18 days ago.",
+ opts:[
+  {t:"Grant it manually on Brand B and sort it out later.",d:[10,-25,5],f:"Bypassing an account-level exclusion is a compliance breach, however friendly it feels.",q:"bad"},
+  {t:"Explain it can't be done on that account, and check what's genuinely eligible on Brand A.",d:[8,10,5],f:"You respected the restriction and still tried to help the customer within the rules.",q:"good"},
+  {t:"Ignore the request and hope Sam forgets.",d:[-20,0,0],f:"Safe for compliance, but the customer was left without an answer.",q:"bad"}
+ ]
+},
+{
+ title:"Late-night spike",
+ who:["Jordan Lee","Hosted VIP","Brand A"],
+ text:"Jordan's play has jumped sharply this week, with long sessions after midnight. Today Jordan asks you for a £150 retention bonus.",
+ screen:"<b>Insights:</b> activity up sharply vs prior period. <b>Safer-gambling flag:</b> raised this morning. <b>Eligibility:</b> blocked pending review.",
+ opts:[
+  {t:"Approve it. Jordan's one of your best customers.",d:[5,-40,0],f:"Offering promotions to a player with a safer-gambling flag is exactly what the guardrails are built to stop.",q:"bad"},
+  {t:"Don't offer a bonus, log the contact and route to the safer-gambling team.",d:[0,30,5],f:"The right call: the flag blocks the request, and the specialist team takes over.",q:"good"},
+  {t:"Offer a bigger deposit match instead, to take the sting out.",d:[0,-40,0],f:"Swapping one promotion for another doesn't solve the problem. It makes it worse.",q:"bad"}
+ ]
+},
+{
+ title:"The wrong time to call",
+ who:["Aisha Rahman","Hosted VIP","Brand A"],
+ text:"It's 23:10. Aisha has just finished a high-value session and you'd like to follow up about next week's event.",
+ screen:"<b>Best contact time:</b> 18:00–21:00. <b>Preferred channel:</b> WhatsApp. <b>Do not contact:</b> none recorded.",
+ opts:[
+  {t:"Call now while the session is fresh.",d:[-15,-5,5],f:"Outside her preferred window, and calling right after a big session is poor judgement.",q:"bad"},
+  {t:"Create a follow-up task for tomorrow at 18:00 on WhatsApp.",d:[12,5,8],f:"Respects the stated preference and keeps the follow-up from slipping.",q:"good"},
+  {t:"Send a long marketing email tonight.",d:[-8,0,3],f:"Wrong channel, wrong time. The profile said concise and WhatsApp.",q:"mid"}
+ ]
+},
+{
+ title:"The colleague on leave",
+ who:["Priya Nair","Hosted VIP","Brand A"],
+ text:"Case CASE-10482 on a bonus query was escalated yesterday. The owner is on leave and Priya has just messaged you.",
+ screen:"<b>Case timeline:</b> created from WhatsApp, eligibility reviewed, escalated for decision. <b>Owner:</b> away until Monday.",
+ opts:[
+  {t:"Ask Priya to explain the whole issue again from the start.",d:[-15,0,-5],f:"The case was designed so the customer never has to repeat themselves.",q:"bad"},
+  {t:"Read the case, add a note and take it over with a proper handoff.",d:[12,5,10],f:"Context travels with the case, so Priya gets continuity and the audit trail stays clean.",q:"good"},
+  {t:"Close the case so it stops showing up as overdue.",d:[-20,-15,5],f:"Closing an unresolved case to tidy the queue hides a problem rather than solving it.",q:"bad"}
+ ]
+},
+{
+ title:"Over the threshold",
+ who:["Marcus Bell","Hosted VIP","Brand A"],
+ text:"You'd like to give Marcus a £400 retention bonus. Anything above £200 needs supervisor approval, and he has no flags.",
+ screen:"<b>Eligibility:</b> eligible. <b>Value:</b> £400. <b>Threshold:</b> £200 without approval.",
+ opts:[
+  {t:"Split it into two £200 requests so it skips approval.",d:[5,-35,5],f:"Deliberately splitting a request to avoid a control is a serious breach, and the audit log would show it.",q:"bad"},
+  {t:"Submit the £400 request and flag it for supervisor approval.",d:[5,15,0],f:"Slightly slower, but the decision is properly recorded and defensible.",q:"good"},
+  {t:"Drop it to £150 to keep things quick.",d:[-5,5,8],f:"Compliant and quick, but you may under-serve the customer without asking for the right level.",q:"mid"}
+ ]
+},
+{
+ title:"Two accounts, maybe one person",
+ who:["R. Hughes","New account","Brand C"],
+ text:"A new Brand C account looks similar to an existing VIP, but the date of birth differs by a digit and the addresses only partly match.",
+ screen:"<b>Match confidence:</b> low. <b>Suggested action:</b> link to existing VIP customer record.",
+ opts:[
+  {t:"Link them. They look close enough.",d:[0,-30,5],f:"A wrong link would expose one person's data inside another's record. Low-confidence matches need review.",q:"bad"},
+  {t:"Leave them unlinked and flag it to the supervisor for identity review.",d:[0,15,-3],f:"Slower, but merges and splits are governed and auditable, as the single view requires.",q:"good"},
+  {t:"Ignore the suggestion entirely.",d:[0,0,3],f:"No harm done today, but the customer stays fragmented across brands.",q:"mid"}
+ ]
+}
+];
+
+let st;
+function init(){st={i:0,m:[50,50,50],order:null,answered:false,log:[]};}
+init();
+const $=id=>document.getElementById(id);
+const names=["Service","Compliance","Efficiency"];
+const cols=["#4f46e5","#0f9d6b","#c27803"];
+const clamp=v=>Math.max(0,Math.min(100,v));
+
+function meters(){
+  $("meters").innerHTML=st.m.map((v,k)=>`<div class="m"><div class="l"><span>${names[k]}</span><span>${v}</span></div><div class="bar"><i style="width:${v}%;background:${cols[k]}"></i></div></div>`).join("");
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function show(){
+  meters();
+  if(st.i>=scenarios.length)return end();
+  const s=scenarios[st.i];
+  if(!st.order)st.order=shuffle(s.opts.map((_,k)=>k));
+  st.answered=false;
+  $("stage").innerHTML=`<div class="card">
+    <div class="prog">Scenario ${st.i+1} of ${scenarios.length}</div>
+    <h2>${s.title}</h2>
+    <div class="who">${s.who.map(w=>`<span class="pill">${w}</span>`).join("")}</div>
+    <p>${s.text}</p>
+    <div class="screen">${s.screen}</div>
+    <div id="choices">${st.order.map(k=>`<button class="choice" data-k="${k}">${s.opts[k].t}</button>`).join("")}</div>
+    <div id="fb"></div>
+  </div>`;
+  $("choices").addEventListener("click",pick);
+}
+
+function pick(e){
+  const b=e.target.closest(".choice");if(!b||st.answered)return;
+  st.answered=true;
+  const s=scenarios[st.i],o=s.opts[b.dataset.k];
+  document.querySelectorAll(".choice").forEach(x=>{x.disabled=true;if(x===b)x.classList.add("picked")});
+  st.m=st.m.map((v,k)=>clamp(v+o.d[k]));
+  st.log.push({title:s.title,q:o.q});
+  meters();
+  const dl=o.d.map((v,k)=>`<span class="d ${v>0?"p":v<0?"n":"z"}">${names[k]} ${v>0?"+":""}${v}</span>`).join("");
+  const last=st.i===scenarios.length-1;
+  $("fb").innerHTML=`<div class="fb ${o.q}"><b>${o.q==="good"?"Good call.":o.q==="mid"?"Acceptable, but not ideal.":"Risky call."}</b> ${o.f}<div class="deltas">${dl}</div></div>
+    <button class="btn" id="next">${last?"See my result":"Next scenario"}</button>`;
+  $("next").addEventListener("click",()=>{st.i++;st.order=null;show();window.scrollTo({top:0,behavior:"smooth"})});
+}
+
+function end(){
+  const [sv,cp,ef]=st.m;
+  const avg=Math.round((sv+cp+ef)/3);
+  let rank,msg;
+  if(cp<40){rank="Compliance review";msg="Your compliance score fell below 40. In a regulated business, strong service can't make up for control breaches, so this shift would be escalated."}
+  else if(avg>=80){rank="Senior VIP Host";msg="Strong across the board. You balanced the customer, the rules and your own time."}
+  else if(avg>=65){rank="VIP Host";msg="Solid shift. A few calls could have been safer or faster."}
+  else{rank="Trainee Host";msg="Some judgement calls need work. Replay and see how the guardrails change your options."}
+  const good=st.log.filter(x=>x.q==="good").length;
+  $("stage").innerHTML=`<div class="card">
+    <div class="prog">Shift complete</div>
+    <div class="rank">${rank}</div>
+    <p>${msg}</p>
+    <p><b>${good} of ${scenarios.length}</b> best-practice decisions · average score <b>${avg}</b></p>
+    <h2 style="margin-top:18px;font-size:17px">What the real tool does about each of these</h2>
+    <table class="map">
+      <tr><td>Duplicate outreach</td><td>One customer record and a single interaction timeline across brands.</td></tr>
+      <tr><td>Excluded account</td><td>Brand-level flags are visible next to the customer-level view.</td></tr>
+      <tr><td>Late-night spike</td><td>Safer-gambling checks sit inside the bonus workflow and block the request.</td></tr>
+      <tr><td>Wrong time to call</td><td>Preferences are recorded once, and follow-ups become tasks.</td></tr>
+      <tr><td>Colleague on leave</td><td>Cases keep their context and can be handed off without the customer repeating themselves.</td></tr>
+      <tr><td>Over the threshold</td><td>Supervisor approval is enforced, and every decision input is audited.</td></tr>
+      <tr><td>Maybe-one-person accounts</td><td>Golden-ID matching with human review and merge/split governance.</td></tr>
+    </table>
+    <button class="btn" id="again">Play again</button>
+  </div>`;
+  $("again").addEventListener("click",()=>{init();show();window.scrollTo({top:0})});
+}
+show();
+</script>
+</body>
+</html>
